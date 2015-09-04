@@ -1,6 +1,6 @@
 {
   "name": "json-balancer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generates JSON object from balance configuration",
   "main": "index.js",
   "scripts": {
