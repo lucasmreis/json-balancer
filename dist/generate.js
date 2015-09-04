@@ -17,9 +17,37 @@ var defaultFromBalanced = function defaultFromBalanced(obj) {
 };
 
 exports.defaultFromBalanced = defaultFromBalanced;
+var last = function last(arr) {
+  return arr[arr.length - 1];
+};
+
+var partialsReducer = function partialsReducer(acc, x) {
+  return acc.length === 0 ? [x] : acc.concat(last(acc) + x);
+};
+
+var getIndex = function getIndex(value, r) {
+  return r.map(function (x, id) {
+    return { id: id, isLower: x >= value };
+  }).filter(function (x) {
+    return x.isLower;
+  }).map(function (x) {
+    return x.id;
+  })[0];
+};
+
+var getRandomIntInclusive = function getRandomIntInclusive(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 var randomFromBalanced = function randomFromBalanced(obj) {
   var options = obj.balance;
-  return 12345;
+  var partials = options // [10,50,40] => [10,60,100]
+  .map(function (o) {
+    return o.percent;
+  }).reduce(partialsReducer, []);
+  var randomNumber = getRandomIntInclusive(1, 100);
+  var drawn = options[getIndex(randomNumber, partials)];
+  return drawn.value;
 };
 
 exports.randomFromBalanced = randomFromBalanced;
