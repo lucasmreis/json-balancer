@@ -4,9 +4,27 @@ export const defaultFromOptions = options =>
 
 export const defaultFromBalanced = obj => defaultFromOptions(obj.balance);
 
+const last = arr => arr[arr.length - 1];
+
+const partialsReducer = (acc, x) =>
+  acc.length === 0 ? [x] : acc.concat(last(acc) + x);
+
+const getIndex = (value, r) =>
+  r.map((x, id) => ({id, isLower: x >= value}))
+   .filter(x => x.isLower)
+   .map(x => x.id)
+   [0];
+
+const getRandomIntInclusive = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 export const randomFromBalanced = obj => {
   const options = obj.balance;
-  return 12345;
+  const partials = options // [10,50,40] => [10,60,100]
+    .map(o => o.percent)
+    .reduce(partialsReducer, []);
+  const randomNumber = getRandomIntInclusive(1, 100);
+  const drawn = options[getIndex(randomNumber, partials)];
+  return drawn.value;
 };
 
 // generates final object given transformation
@@ -35,7 +53,7 @@ export const generateDefault = config => {
 };
 
 export const generate = config => {
-  let result = {};
+  let result = {}; 
   generateRecur(randomFromBalanced, config, result);
   return result;
 };
