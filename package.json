@@ -4,7 +4,9 @@
   "description": "Generates JSON object from balance configuration",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -w --compilers js:babel/register",
+    "build": "babel src --out-dir dist",
+    "build:watch": "babel src --watch --out-dir dist"
   },
   "repository": {
     "type": "git",
@@ -22,5 +24,10 @@
   "bugs": {
     "url": "https://github.com/lucasmreis/json-balancer/issues"
   },
-  "homepage": "https://github.com/lucasmreis/json-balancer#readme"
+  "homepage": "https://github.com/lucasmreis/json-balancer#readme",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "chai": "^3.2.0",
+    "mocha": "^2.3.0"
+  }
 }
