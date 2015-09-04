@@ -1,6 +1,9 @@
+//
+// Example of a config object:
+//
 // {
 //   normal: 12345,
-//   balanced: {
+//   weddingList: {
 //     balance: [
 //       {percent: 50, value: true, defaultValue: true},
 //       {percent: 50, value: false}
