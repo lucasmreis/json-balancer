@@ -165,4 +165,33 @@ describe('validate', () => {
     expect(Validate.validateProperty(errors, ok)).to.be.false;
     expect(errors.length).to.equal(1);
   });
+
+  it('final validate function', () => {
+    const ok = {
+      a: 1,
+      b: 2,
+      c: {
+        balance: [
+          {percent: 50, value: 12345, defaultValue: true},
+          {percent: 40, value: 12345},
+          {percent: 10, value: 12345}
+        ]
+      }
+    };
+
+    const er = {
+      a: 1,
+      b: 2,
+      c: {
+        balance: [
+          {percent: 50, value: 12345, defaultValue: true},
+          {percent: 30, value: 12345},
+          {percent: 10, value: 12345}
+        ]
+      }
+    };
+
+    expect(Validate.validate(ok)).to.be.true;
+    expect(Validate.validate(er)).to.be.instanceof(Array);
+  });
 });

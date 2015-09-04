@@ -51,12 +51,16 @@ export const validateIndividually = (errors, arr) =>
     .map(o => validateOption(errors, o))
     .reduce((a, b) => !!a && !!b);
 
+// validates array of options
 export const validateOptionArray = (errors, arr) =>
   testValidation(errors, 'The options array must have at least two items', a => a.length >= 2, arr) &&
   testValidation(errors, 'Sum of percent must be 100', percentSum100, arr) &&
   testValidation(errors, 'At least one option must have defaultValue: true', hasDefault, arr) &&
   validateIndividually(errors, arr);
 
+// validates property which can be a value,
+// an object or a balance object with an
+// array of options
 export const validateProperty = (errors, prop) => {
   if (!is('object')(prop)) {
     return true;
@@ -68,4 +72,11 @@ export const validateProperty = (errors, prop) => {
       .map(p => validateProperty(errors, p))
       .reduce((a, b) => !!a && !!b);
   }
-}
+};
+
+// final validate function
+export const validate = config => {
+  let errors = [];
+  const ok = validateProperty(errors, config);
+  return ok ? true : errors;
+};
